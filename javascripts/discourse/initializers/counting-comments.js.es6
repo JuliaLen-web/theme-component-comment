@@ -17,10 +17,7 @@ export default {
       api.onPageChange((url, title) => {
         let posts_count = api.container.lookup("controller:topic").get("model.posts_count") - 1;
 
-        function addElement() {
-
-          if (document.querySelector('.comment-section')) return false;
-
+        function createComment(parent) {
           const commentSection = document.createElement("div");
           commentSection.classList.add("comment-section");
 
@@ -28,8 +25,52 @@ export default {
 
           const newContent = document.createTextNode(`${posts_count} ${textComment}`);
           commentSection.appendChild(newContent);
+
+          parent.appendChild(commentSection);
+          return parent;
+        }
+
+        function createButton(parent) {
+          console.log(api.getCurrentUser())
+
+          const buttonComment = document.createElement("div");
+          buttonComment.classList.add("btn-comment");
+
+          buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
+
+          buttonComment.addEventListener('click', ()=> {
+            const { REPLY } = require('discourse/models/composer').default;
+
+            const composer = Discourse.__container__.lookup('controller:composer');
+
+            setTimeout(function() {
+              const topic = Discourse.__container__.lookup("controller:topic").get("model");
+              if (topic) {
+                composer.open({
+                  action: REPLY,
+                  draftKey: topic.draft_key,
+                  draftSequence: topic.draft_sequence,
+                  topic,
+                });
+              }
+            }, 0)
+          })
+
+          parent.appendChild(buttonComment);
+          return parent;
+        }
+
+        function addElement() {
+
+          if (document.querySelector('.comment-section') || !document.getElementById("post_1") || document.querySelector('.btn-auth-wrapper')) return false;
+
+          const commentSectionWrapper = document.createElement("div");
+
+          createComment(commentSectionWrapper);
+          createButton(commentSectionWrapper);
+
           const firstPost = document.getElementById("post_1");
-          firstPost.after(commentSection);
+          firstPost.after(commentSectionWrapper);
         }
         if (posts_count >= 0) {
           addElement();
