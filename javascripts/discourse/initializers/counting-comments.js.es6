@@ -31,30 +31,39 @@ export default {
         }
 
         function createButton(parent) {
-          console.log(api.getCurrentUser())
+          console.log(api.getCurrentUser().is_anonymous)
 
           const buttonComment = document.createElement("div");
           buttonComment.classList.add("btn-comment");
 
-          buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
+          if (api.getCurrentUser().is_anonymous) {
+            buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
 
-          buttonComment.addEventListener('click', ()=> {
-            const { REPLY } = require('discourse/models/composer').default;
+            buttonComment.addEventListener('click', ()=> {
+              const { REPLY } = require('discourse/models/composer').default;
 
-            const composer = Discourse.__container__.lookup('controller:composer');
+              const composer = Discourse.__container__.lookup('controller:composer');
 
-            setTimeout(function() {
-              const topic = Discourse.__container__.lookup("controller:topic").get("model");
-              if (topic) {
-                composer.open({
-                  action: REPLY,
-                  draftKey: topic.draft_key,
-                  draftSequence: topic.draft_sequence,
-                  topic,
-                });
-              }
-            }, 0)
-          })
+              setTimeout(function() {
+                const topic = Discourse.__container__.lookup("controller:topic").get("model");
+                if (topic) {
+                  composer.open({
+                    action: REPLY,
+                    draftKey: topic.draft_key,
+                    draftSequence: topic.draft_sequence,
+                    topic,
+                  });
+                }
+              }, 0)
+            })
+          } else {
+            const authLink = document.createElement("a");
+
+            authLink.setAttribute('href', 'https://brokensun.com/auth/oauth2_basic/?login=1&language=ru&redirect_uri=%2Fru%2Fnews%2Fnovye-predmety-uzhe-v-igre-test%2F26950%2F');
+            authLink.setAttribute('onclick',"elclick('button_click','login');")
+
+            buttonComment.appendChild(authLink);
+          }
 
           parent.appendChild(buttonComment);
           return parent;
