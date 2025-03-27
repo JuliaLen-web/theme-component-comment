@@ -31,14 +31,24 @@ export default {
         }
 
         function createButton(parent) {
-          console.log(api.getCurrentUser().is_anonymous)
 
           const buttonComment = document.createElement("div");
           buttonComment.classList.add("btn-comment");
 
           if (api.getCurrentUser().is_anonymous) {
-            buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
+            const buttonComment = document.createElement("a");
 
+            buttonComment.classList.add("btn-comment");
+            buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
+            buttonComment.setAttribute('href', 'https://brokensun.com/auth/oauth2_basic/?login=1&language=ru&redirect_uri=%2Fru%2Fnews%2Fnovye-predmety-uzhe-v-igre-test%2F26950%2F');
+            buttonComment.setAttribute('onclick',"elclick('button_click','login');")
+
+            parent.appendChild(buttonComment);
+          } else {
+            const buttonComment = document.createElement("div");
+
+            buttonComment.classList.add("btn-comment");
+            buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
             buttonComment.addEventListener('click', ()=> {
               const { REPLY } = require('discourse/models/composer').default;
 
@@ -56,17 +66,10 @@ export default {
                 }
               }, 0)
             })
-          } else {
-            const authLink = document.createElement("a");
 
-            authLink.appendChild(document.createTextNode('Добавить комментарий'))
-            authLink.setAttribute('href', 'https://brokensun.com/auth/oauth2_basic/?login=1&language=ru&redirect_uri=%2Fru%2Fnews%2Fnovye-predmety-uzhe-v-igre-test%2F26950%2F');
-            authLink.setAttribute('onclick',"elclick('button_click','login');")
-
-            buttonComment.appendChild(authLink);
+            parent.appendChild(buttonComment);
           }
 
-          parent.appendChild(buttonComment);
           return parent;
         }
 
