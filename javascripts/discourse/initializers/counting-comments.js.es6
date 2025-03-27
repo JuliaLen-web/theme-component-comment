@@ -19,7 +19,7 @@ export default {
 
         function createComment(parent) {
           const commentSection = document.createElement("div");
-          commentSection.classList.add("comment-section");
+          commentSection.classList.add("comment-content");
 
           const textComment = normalizeTextForm(posts_count, ['Комментарий', 'Комментария', 'Комментариев'])
 
@@ -62,10 +62,10 @@ export default {
 
         function addElement() {
 
-          if (document.querySelector('.comment-section') || !document.getElementById("post_1") || document.querySelector('.btn-auth-wrapper')) return false;
+          if (document.querySelector('.comment-section') || !document.getElementById("post_1")) return false;
 
           const commentSectionWrapper = document.createElement("div");
-
+          commentSectionWrapper.classList.add("comment-section");
           createComment(commentSectionWrapper);
           createButton(commentSectionWrapper);
 
