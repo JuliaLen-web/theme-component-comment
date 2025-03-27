@@ -59,6 +59,7 @@ export default {
           } else {
             const authLink = document.createElement("a");
 
+            authLink.appendChild(document.createTextNode('Добавить комментарий'))
             authLink.setAttribute('href', 'https://brokensun.com/auth/oauth2_basic/?login=1&language=ru&redirect_uri=%2Fru%2Fnews%2Fnovye-predmety-uzhe-v-igre-test%2F26950%2F');
             authLink.setAttribute('onclick',"elclick('button_click','login');")
 
