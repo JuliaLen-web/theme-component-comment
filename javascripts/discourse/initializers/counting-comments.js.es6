@@ -35,7 +35,9 @@ export default {
           const buttonComment = document.createElement("div");
           buttonComment.classList.add("btn-comment");
 
-          if (api.getCurrentUser().is_anonymous) {
+          console.log(api.getCurrentUser())
+
+          if (api.getCurrentUser().is_anonymous === null) {
             const buttonComment = document.createElement("a");
 
             buttonComment.classList.add("btn-comment");
