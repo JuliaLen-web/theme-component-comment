@@ -31,44 +31,29 @@ export default {
         }
 
         function createButton(parent) {
-
           const buttonComment = document.createElement("div");
+
           buttonComment.classList.add("btn-comment");
+          buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
+          buttonComment.addEventListener('click', ()=> {
+            const { REPLY } = require('discourse/models/composer').default;
 
-          if (api.getCurrentUser() === null) {
-            const buttonComment = document.createElement("a");
+            const composer = Discourse.__container__.lookup('controller:composer');
 
-            buttonComment.classList.add("btn-comment");
-            buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
-            buttonComment.setAttribute('href', 'https://brokensun.com/auth/oauth2_basic/?login=1&language=ru&redirect_uri=%2Fru%2Fnews%2Fnovye-predmety-uzhe-v-igre-test%2F26950%2F');
-            buttonComment.setAttribute('onclick',"elclick('button_click','login');")
+            setTimeout(function() {
+              const topic = Discourse.__container__.lookup("controller:topic").get("model");
+              if (topic) {
+                composer.open({
+                  action: REPLY,
+                  draftKey: topic.draft_key,
+                  draftSequence: topic.draft_sequence,
+                  topic,
+                });
+              }
+            }, 0)
+          })
 
-            parent.appendChild(buttonComment);
-          } else {
-            const buttonComment = document.createElement("div");
-
-            buttonComment.classList.add("btn-comment");
-            buttonComment.appendChild(document.createTextNode('Добавить комментарий'))
-            buttonComment.addEventListener('click', ()=> {
-              const { REPLY } = require('discourse/models/composer').default;
-
-              const composer = Discourse.__container__.lookup('controller:composer');
-
-              setTimeout(function() {
-                const topic = Discourse.__container__.lookup("controller:topic").get("model");
-                if (topic) {
-                  composer.open({
-                    action: REPLY,
-                    draftKey: topic.draft_key,
-                    draftSequence: topic.draft_sequence,
-                    topic,
-                  });
-                }
-              }, 0)
-            })
-
-            parent.appendChild(buttonComment);
-          }
+          parent.appendChild(buttonComment);
 
           return parent;
         }
