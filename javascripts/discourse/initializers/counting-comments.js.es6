@@ -1,6 +1,4 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { authorizesOneOrMoreExtensions } from "discourse/lib/uploads";
-import discourseComputed from "discourse-common/utils/decorators";
 
 const PLUGIN_ID = "discourse-count-comments";
 
@@ -14,7 +12,8 @@ export default {
         return words_arr[(number % 100 > 4 && number % 100 < 20) ? 2 : options[(number % 10 < 5) ? number % 10 : 5]];
       }
 
-      api.onPageChange((url, title) => {
+      api.onPageChange(() => {
+        console.log(api.container.lookup("controller:topic").get("model"));
         let posts_count = api.container.lookup("controller:topic").get("model.posts_count") - 1;
 
         function createComment(parent) {
