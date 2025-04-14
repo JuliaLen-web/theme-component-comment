@@ -15,9 +15,7 @@ export default {
       api.onPageChange(() => {
         let posts_count = api.container.lookup("controller:topic").get("model.replyCount");
 
-        console.log(api.container.lookup("controller:topic").get("model.site.notification_types.invited_to_topic"))
-
-        console.log(api.container.lookup("model:post"))
+        console.log(api.container.lookup("model:post").get("model"))
         console.log(api.container.lookup("controller:topic").get("model"))
 
         function createComment(parent) {
