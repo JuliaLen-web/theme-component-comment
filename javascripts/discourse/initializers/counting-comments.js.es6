@@ -15,7 +15,7 @@ export default {
       api.onPageChange(() => {
         let posts_count = api.container.lookup("controller:topic").get("model.replyCount");
 
-        console.log(api.container.lookup("controller:topic").get("model.replyCount"))
+        console.log(api.container.lookup("controller:topic").get("model.replies_to_post_number"))
         console.log(api.container.lookup("controller:topic").get("model"))
 
         function createComment(parent) {
