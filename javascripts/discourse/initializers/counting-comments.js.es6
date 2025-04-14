@@ -13,10 +13,11 @@ export default {
       }
 
       api.onPageChange(() => {
+        let smallActions = document.querySelectorAll('.small-action').length;
         let posts_count = api.container.lookup("controller:topic").get("model.replyCount");
-
-        console.log(api.container.lookup("model:post").get("model"))
-        console.log(api.container.lookup("controller:topic").get("model"))
+        if (smallActions > 0) {
+          posts_count = posts_count - smallActions;
+        }
 
         function createComment(parent) {
           const commentSection = document.createElement("div");
