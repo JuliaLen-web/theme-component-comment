@@ -13,7 +13,10 @@ export default {
       }
 
       api.onPageChange(() => {
-        let posts_count = api.container.lookup("controller:topic").get("model.replies_to_post_number");
+        let posts_count = 0;
+        if (api.container.lookup("controller:topic").get("model.replies_to_post_number") > 0) {
+          posts_count = api.container.lookup("controller:topic").get("model.replies_to_post_number");
+        }
 
         console.log(api.container.lookup("controller:topic").get("model.replies_to_post_number"))
         console.log(api.container.lookup("controller:topic").get("model"))
