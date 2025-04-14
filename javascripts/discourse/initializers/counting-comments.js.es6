@@ -19,8 +19,6 @@ export default {
           posts_count = posts_count - smallActions;
         }
 
-        console.log(api.container.lookup("controller:topic").get("model.posts_count"), posts_count, smallActions);
-
         function createComment(parent) {
           const commentSection = document.createElement("div");
           commentSection.classList.add("comment-content");
