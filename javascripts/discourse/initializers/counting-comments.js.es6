@@ -13,7 +13,7 @@ export default {
       }
 
       api.onPageChange(() => {
-        let smallActions = document.querySelectorAll('.small-action').length;
+        let smallActions = document.querySelectorAll('.small-action.onscreen-post').length;
         let posts_count = api.container.lookup("controller:topic").get("model.posts_count") - 1;
         if (smallActions > 0) {
           posts_count = posts_count - smallActions;
